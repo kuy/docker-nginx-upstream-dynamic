@@ -1,7 +1,7 @@
 FROM alpine:3.5
 MAINTAINER Yuki Kodama endflow.net@gmail.com
 
-ENV NGINX_VERSION 1.11.13
+ARG VERSION
 
 RUN apk update && apk add git \
   && mkdir /usr/src \
@@ -71,8 +71,8 @@ RUN GPG_KEYS=B0F4253373F8F6F510D42178520A9993A1C052F8 \
 		gd-dev \
 		geoip-dev \
 		perl-dev \
-	&& curl -fSL http://nginx.org/download/nginx-$NGINX_VERSION.tar.gz -o nginx.tar.gz \
-	&& curl -fSL http://nginx.org/download/nginx-$NGINX_VERSION.tar.gz.asc  -o nginx.tar.gz.asc \
+	&& curl -fSL http://nginx.org/download/nginx-$VERSION.tar.gz -o nginx.tar.gz \
+	&& curl -fSL http://nginx.org/download/nginx-$VERSION.tar.gz.asc  -o nginx.tar.gz.asc \
 	&& export GNUPGHOME="$(mktemp -d)" \
 	&& found=''; \
 	for server in \
@@ -90,7 +90,7 @@ RUN GPG_KEYS=B0F4253373F8F6F510D42178520A9993A1C052F8 \
 	&& mkdir -p /usr/src \
 	&& tar -zxC /usr/src -f nginx.tar.gz \
 	&& rm nginx.tar.gz \
-	&& cd /usr/src/nginx-$NGINX_VERSION \
+	&& cd /usr/src/nginx-$VERSION \
 	&& ./configure $CONFIG --with-debug \
 	&& make -j$(getconf _NPROCESSORS_ONLN) \
 	&& mv objs/nginx objs/nginx-debug \
@@ -116,7 +116,7 @@ RUN GPG_KEYS=B0F4253373F8F6F510D42178520A9993A1C052F8 \
 	&& ln -s ../../usr/lib/nginx/modules /etc/nginx/modules \
 	&& strip /usr/sbin/nginx* \
 	&& strip /usr/lib/nginx/modules/*.so \
-	&& rm -rf /usr/src/nginx-$NGINX_VERSION \
+	&& rm -rf /usr/src/nginx-$VERSION \
 	&& rm -rf /usr/src/nginx-upstream-dynamic-servers \
 	\
 	# Bring in gettext so we can get `envsubst`, then throw
