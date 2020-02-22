@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Nginx version
-VERSION=1.13.0
+VERSION=1.16.1
 
 TAG="netkuy/nginx:$VERSION"
 
