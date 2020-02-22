@@ -13,6 +13,8 @@ This Dockerfile is based-on [official one](https://hub.docker.com/_/nginx/).
 ./build.sh
 ```
 
+_NOTE: Require to login to DockerHub before executing `docker push`_
+
 ### TODO
 
 - Squash a step of fetching git repository
